@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -16,35 +15,83 @@ namespace AutoLayoutGrid
 
 		private void RowDefinitions_ItemSizeChanged(object sender, EventArgs e)
 		{
-		
+			UpdateMatrix();
 		}
 
 		private void ColumnDefinitions_ItemSizeChanged(object sender, EventArgs e)
 		{
-			
+			UpdateMatrix();
+		}
+
+		public bool ThrowOnLayoutWarning { get; set; }
+
+		void LogWarning(string warning)
+		{
+			Log.Warning(nameof(AutoGrid), warning);
+			if (ThrowOnLayoutWarning)
+				throw new Exception(warning);
+		}
+
+		void UpdateMatrix()
+		{
+			if (_UsedMatrix == null)
+				return;
+
+			var previousRowCount = _rowCount;
+			var previousColumnCount = _columnCount;
+
+			var newMatrix = InitMatrix();
+			for (var r = 0; r < previousRowCount; r++)
+				for (var c = 0; c < previousColumnCount; c++)
+					newMatrix[r][c] = _UsedMatrix[r][c];
+
+			_UsedMatrix = newMatrix;
+		}
+
+		bool[][] InitMatrix()
+		{
+			_rowCount = RowDefinitions.Count;
+			_columnCount = ColumnDefinitions.Count;
+			var newMatrix = new bool[_rowCount][];
+			for (var r = 0; r < _rowCount; r++)
+				newMatrix[r] = new bool[_columnCount];
+			return newMatrix;
 		}
 
 		private bool[][] _UsedMatrix;
 		private int _rowCount;
 		private int _columnCount;
 
-		void FindNextCell(int rowSpan, int columnSpan, out int rowIndex, out int columnIndex)
+		void FindNextCell(int rowSpan, int columnSpan, ref int rowIndex, ref int columnIndex)
 		{
-			if (_UsedMatrix == null)
+			if (_UsedMatrix == null) 
+				_UsedMatrix = InitMatrix();
+
+			// Use the row index provided if it was manually set or find the first available row
+			bool[] row;
+			if(rowIndex == 0)
+				row = _UsedMatrix.FirstOrDefault(r => r.Any(c => !c));
+			else
 			{
-				_rowCount = RowDefinitions.Count;
-				_columnCount = ColumnDefinitions.Count;
-				_UsedMatrix = new bool[_rowCount][];
-				for (var r = 0; r < _columnCount; r++)
-					_UsedMatrix[r] = new bool[_columnCount];
+				if (rowIndex < _rowCount)
+					row = _UsedMatrix[rowIndex];
+				else
+					return;
 			}
 
-			//Find the first open row
-			var firstOpenRow = _UsedMatrix.First(r => r.Any(c => c == false));
-			rowIndex = _UsedMatrix.IndexOf(firstOpenRow);
+			// If no row is found, set cell to origin and log
+			if (row == null)
+			{
+				LogWarning("Defined cells exceeded.");
+				rowIndex = _rowCount == 0 ? 0 : _rowCount - 1;
+				columnIndex = _columnCount == 0 ? 0 : _columnCount - 1;
+				return;
+			}
+			rowIndex = _UsedMatrix.IndexOf(row);
 
-			//Find the first open column
-			columnIndex = firstOpenRow.IndexOf(firstOpenRow.First(c => c == false));
+			// Find the first available column
+			if(columnIndex == 0)
+				columnIndex = row.IndexOf(row.First(c => c == false));
 		}
 
 		void UpdateUsedCells(int row, int column, int rowSpan, int columnSpan)
@@ -55,13 +102,13 @@ namespace AutoLayoutGrid
 			if (columnEnd > _columnCount)
 			{
 				columnEnd = _columnCount;
-				Log.Warning(nameof(AutoGrid), $"View at row {row} column {columnEnd} with column span {columnSpan} exceeds the defined grid columns.");
+				LogWarning($"View at row {row} column {columnEnd} with column span {columnSpan} exceeds the defined grid columns.");
 			}
 
 			if (rowEnd > _rowCount)
 			{
 				rowEnd = _rowCount;
-				Log.Warning(nameof(AutoGrid), $"View at row {row} column {columnEnd} with row span {rowSpan} exceeds the defined grid rows.");
+				LogWarning($"View at row {row} column {columnEnd} with row span {rowSpan} exceeds the defined grid rows.");
 			}
 
 			for (var r = row; r < rowEnd; r++)
@@ -69,60 +116,27 @@ namespace AutoLayoutGrid
 					_UsedMatrix[r][c] = true;
 		}
 
-		protected override void OnAdded(View view)
+		void ProcessView(View view)
 		{
-			base.OnAdded(view);
-
 			// Get position request
 			var column = GetColumn(view);
 			var row = GetRow(view);
 			var columnSpan = GetColumnSpan(view);
 			var rowSpan = GetRowSpan(view);
 
-			FindNextCell(rowSpan, columnSpan, out row, out column);
+			FindNextCell(rowSpan, columnSpan, ref row, ref column);
 			UpdateUsedCells(row, column, rowSpan, columnSpan);
 
 			// Set attributes
 			view.SetValue(ColumnProperty, column);
 			view.SetValue(RowProperty, row);
+		}
 
-			//// Get counts
-			//var definedColumns = ColumnDefinitions.Count;
-			//var definedRows = RowDefinitions.Count;
+		protected override void OnAdded(View view)
+		{
+			base.OnAdded(view);
 
-			//if (_UsedMatrix == null)
-			//	_UsedMatrix = new bool[definedRows, definedColumns];
-
-			//if (_currentRow == RowDefinitions.Count)
-			//	throw new Exception($"Rows required '{_currentRow + 1}' exceeds rows defined '{definedRows}'.");
-
-			//// Calculate position
-			//var column = GetColumn(view) == 0 ? 0 : _currentColumn;
-			//var row = GetRow(view) == 0 ? 0 : _currentColumn;
-			//var columnSpan = GetColumnSpan(view);
-			//var rowSpan = GetRowSpan(view);
-
-			//// Find any conflicts
-			//// TODO
-
-			//// Set attributes
-			//view.SetValue(ColumnProperty, _currentColumn);
-			//view.SetValue(RowProperty, _currentRow);
-
-			////TODO check for existing conflicts from spans
-
-			//if (_currentColumn + columnSpan > definedColumns)
-			//	throw new Exception($"Column Span '{columnSpan}' with column '{column}' exceeds columns defined '{definedColumns}'.");
-			//if (_currentRow + rowSpan > definedRows)
-			//	throw new Exception($"Row Span '{rowSpan}' with row '{row}' exceeds rows defined '{definedRows}'.");
-
-			//// Increment Counters
-			//_currentColumn += columnSpan;
-			//if (_currentColumn >= ColumnDefinitions.Count)
-			//{
-			//	_currentColumn = 0;
-			//	_currentRow++;
-			//}
+			ProcessView(view);
 		}
 	}
 }

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace AutoLayoutGrid
@@ -13,6 +8,16 @@ namespace AutoLayoutGrid
 		public MainPage()
 		{
 			InitializeComponent();
+		}
+
+		private void ButtonAddRow_OnClicked(object sender, EventArgs e)
+		{
+			TestGrid.RowDefinitions.Add(new RowDefinition());
+		}
+
+		private void ButtonAddColumn_OnClicked(object sender, EventArgs e)
+		{
+			TestGrid.ColumnDefinitions.Add(new ColumnDefinition());
 		}
 	}
 }

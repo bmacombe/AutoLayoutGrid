@@ -21,30 +21,51 @@
 			</Label.FormattedText>
 		</Label>
 	</StackLayout>-->
-	<autoLayoutGrid:AutoGrid Margin="30">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-			<RowDefinition Height="Auto"></RowDefinition>
-		</Grid.RowDefinitions>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-			<ColumnDefinition Width="*"></ColumnDefinition>
-		</Grid.ColumnDefinitions>
+	<StackLayout>
+		<StackLayout Orientation="Horizontal">
+			<Button Text="Add Row" Clicked="ButtonAddRow_OnClicked"></Button>
+			<Button Text="Add Column" Clicked="ButtonAddColumn_OnClicked"></Button>
+		</StackLayout>
+		<autoLayoutGrid:AutoGrid x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
 
-		<Label Text="Row 0 Column 0"></Label>
+			<!--<Label Text="Row 0 Column 0"></Label>
 		<Label Text="Row 0 Column 1"></Label>
 		<Label Text="Row 0 Column 2"></Label>
 
 		<Label Text="Row 1 Column 0"></Label>
 		<Label Text="Row 1 Column 1"></Label>
 		<Label Text="Row 1 Column 2 Span 2" Grid.ColumnSpan="2"></Label>
-		<Label Text="Row 2 Column 0"></Label>
+		<Label Text="Row 2 Column 0 Row Span 2" Grid.RowSpan="3"></Label>-->
 
-		<!--<Label Grid.Row="2" Grid.Column="0" Text="Row 2 Column 0"></Label>-->
+			<autoLayoutGrid:TestLabel Grid.RowSpan="2" />
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
 
-	</autoLayoutGrid:AutoGrid>
+			<Label Text="Row 1 Column 0" Grid.Row="1" Grid.Column="0"></Label>
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+		</autoLayoutGrid:AutoGrid>
+	</StackLayout>
 
 </ContentPage>
