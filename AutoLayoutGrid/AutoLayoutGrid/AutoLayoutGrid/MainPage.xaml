@@ -39,7 +39,8 @@
 		<Label Text="Row 0 Column 2"></Label>
 
 		<Label Text="Row 1 Column 0"></Label>
-		<Label Text="Row 1 Column 1 Span 2" Grid.ColumnSpan="2"></Label>
+		<Label Text="Row 1 Column 1"></Label>
+		<Label Text="Row 1 Column 2 Span 2" Grid.ColumnSpan="2"></Label>
 		<Label Text="Row 2 Column 0"></Label>
 
 		<!--<Label Grid.Row="2" Grid.Column="0" Text="Row 2 Column 0"></Label>-->

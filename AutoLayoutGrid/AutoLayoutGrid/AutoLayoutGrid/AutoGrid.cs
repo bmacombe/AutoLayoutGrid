@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -9,22 +10,33 @@ namespace AutoLayoutGrid
 	{
 		public AutoGrid()
 		{
-
+			ColumnDefinitions.ItemSizeChanged += ColumnDefinitions_ItemSizeChanged;
+			RowDefinitions.ItemSizeChanged += RowDefinitions_ItemSizeChanged;
 		}
 
-		//private int _currentRow = 0;
-		//private int _currentColumn = 0;
+		private void RowDefinitions_ItemSizeChanged(object sender, EventArgs e)
+		{
+		
+		}
+
+		private void ColumnDefinitions_ItemSizeChanged(object sender, EventArgs e)
+		{
+			
+		}
+
 		private bool[][] _UsedMatrix;
+		private int _rowCount;
+		private int _columnCount;
 
 		void FindNextCell(int rowSpan, int columnSpan, out int rowIndex, out int columnIndex)
 		{
 			if (_UsedMatrix == null)
 			{
-				var rowDefCount = RowDefinitions.Count;
-				var columnDefCount = ColumnDefinitions.Count;
-				_UsedMatrix = new bool[rowDefCount][];
-				for (var r = 0; r < rowDefCount; r++)
-					_UsedMatrix[r] = new bool[columnDefCount];
+				_rowCount = RowDefinitions.Count;
+				_columnCount = ColumnDefinitions.Count;
+				_UsedMatrix = new bool[_rowCount][];
+				for (var r = 0; r < _columnCount; r++)
+					_UsedMatrix[r] = new bool[_columnCount];
 			}
 
 			//Find the first open row
@@ -37,8 +49,23 @@ namespace AutoLayoutGrid
 
 		void UpdateUsedCells(int row, int column, int rowSpan, int columnSpan)
 		{
-			for (var r = row; r < row + rowSpan; r++)
-				for (var c = column; c < column + columnSpan; c++)
+			var rowEnd = row + rowSpan;
+			var columnEnd = column + columnSpan;
+
+			if (columnEnd > _columnCount)
+			{
+				columnEnd = _columnCount;
+				Log.Warning(nameof(AutoGrid), $"View at row {row} column {columnEnd} with column span {columnSpan} exceeds the defined grid columns.");
+			}
+
+			if (rowEnd > _rowCount)
+			{
+				rowEnd = _rowCount;
+				Log.Warning(nameof(AutoGrid), $"View at row {row} column {columnEnd} with row span {rowSpan} exceeds the defined grid rows.");
+			}
+
+			for (var r = row; r < rowEnd; r++)
+				for (var c = column; c < columnEnd; c++)
 					_UsedMatrix[r][c] = true;
 		}
 
