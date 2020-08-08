@@ -25,6 +25,8 @@
 		<StackLayout Orientation="Horizontal">
 			<Button Text="Add Row" Clicked="ButtonAddRow_OnClicked"></Button>
 			<Button Text="Add Column" Clicked="ButtonAddColumn_OnClicked"></Button>
+			<Button Text="Remove Row" Clicked="ButtonRemoveRow_OnClicked"></Button>
+			<Button Text="Remove Column" Clicked="ButtonRemoveColumn_OnClicked"></Button>
 		</StackLayout>
 		<autoLayoutGrid:AutoGrid x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False">
 			<Grid.RowDefinitions>

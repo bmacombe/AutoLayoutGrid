@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Xamarin.Forms;
 
 namespace AutoLayoutGrid
@@ -18,6 +19,18 @@ namespace AutoLayoutGrid
 		private void ButtonAddColumn_OnClicked(object sender, EventArgs e)
 		{
 			TestGrid.ColumnDefinitions.Add(new ColumnDefinition());
+		}
+
+		private void ButtonRemoveRow_OnClicked(object sender, EventArgs e)
+		{
+			var lastRow = TestGrid.RowDefinitions.Last();
+			TestGrid.RowDefinitions.Remove(lastRow);
+		}
+
+		private void ButtonRemoveColumn_OnClicked(object sender, EventArgs e)
+		{
+			var lastColumn = TestGrid.ColumnDefinitions.Last();
+			TestGrid.ColumnDefinitions.Remove(lastColumn);
 		}
 	}
 }

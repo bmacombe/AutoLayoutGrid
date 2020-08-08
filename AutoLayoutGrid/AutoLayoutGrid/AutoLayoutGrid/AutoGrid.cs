@@ -15,12 +15,12 @@ namespace AutoLayoutGrid
 
 		private void RowDefinitions_ItemSizeChanged(object sender, EventArgs e)
 		{
-			UpdateMatrix();
+			OnRowOrColumnCountChanged();
 		}
 
 		private void ColumnDefinitions_ItemSizeChanged(object sender, EventArgs e)
 		{
-			UpdateMatrix();
+			OnRowOrColumnCountChanged();
 		}
 
 		public bool ThrowOnLayoutWarning { get; set; }
@@ -32,20 +32,28 @@ namespace AutoLayoutGrid
 				throw new Exception(warning);
 		}
 
-		void UpdateMatrix()
+		void OnRowOrColumnCountChanged()
 		{
-			if (_UsedMatrix == null)
+			// If there are no children, there is no need to adjust anything
+			if (!Children.Any())
 				return;
 
-			var previousRowCount = _rowCount;
-			var previousColumnCount = _columnCount;
+			//var previousRowCount = _rowCount;
+			//var previousColumnCount = _columnCount;
 
-			var newMatrix = InitMatrix();
-			for (var r = 0; r < previousRowCount; r++)
-				for (var c = 0; c < previousColumnCount; c++)
-					newMatrix[r][c] = _UsedMatrix[r][c];
+			_UsedMatrix = InitMatrix();
 
-			_UsedMatrix = newMatrix;
+			// Reassign children
+			var orderedChildren = Children.OrderBy(GetRow).ThenBy(GetColumn);
+			foreach (var child in orderedChildren) 
+				ProcessView(child);
+
+			//var newMatrix = InitMatrix();
+			//for (var r = 0; r < previousRowCount; r++)
+			//	for (var c = 0; c < previousColumnCount; c++)
+			//		newMatrix[r][c] = _UsedMatrix[r][c];
+
+			//_UsedMatrix = newMatrix;
 		}
 
 		bool[][] InitMatrix()
