@@ -38,22 +38,13 @@ namespace AutoLayoutGrid
 			if (!Children.Any())
 				return;
 
-			//var previousRowCount = _rowCount;
-			//var previousColumnCount = _columnCount;
-
+			// Create a new matrix
 			_UsedMatrix = InitMatrix();
 
 			// Reassign children
 			var orderedChildren = Children.OrderBy(GetRow).ThenBy(GetColumn);
 			foreach (var child in orderedChildren) 
 				ProcessView(child);
-
-			//var newMatrix = InitMatrix();
-			//for (var r = 0; r < previousRowCount; r++)
-			//	for (var c = 0; c < previousColumnCount; c++)
-			//		newMatrix[r][c] = _UsedMatrix[r][c];
-
-			//_UsedMatrix = newMatrix;
 		}
 
 		bool[][] InitMatrix()
@@ -75,7 +66,7 @@ namespace AutoLayoutGrid
 			if (_UsedMatrix == null)
 				_UsedMatrix = InitMatrix();
 
-			// Use the row index provided if it was manually set or find the first available row
+			// Find the first available row
 			var row = _UsedMatrix.FirstOrDefault(r => r.Any(c => !c));
 
 			// If no row is found, set cell to origin and log
@@ -116,7 +107,6 @@ namespace AutoLayoutGrid
 
 		void ProcessView(View view)
 		{
-			// Get position request
 			var column = GetColumn(view);
 			var row = GetRow(view);
 			var columnSpan = GetColumnSpan(view);
