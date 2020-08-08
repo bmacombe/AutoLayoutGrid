@@ -1,0 +1,14 @@
+
+AgSpectrum/
+
+*.lock
+
+*.cpg
+
+*.sbn
+
+*.sbx
+
+*.mwd
+
+*.mwx
