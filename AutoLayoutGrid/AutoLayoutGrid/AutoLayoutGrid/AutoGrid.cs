@@ -13,12 +13,12 @@ namespace AutoLayoutGrid
 			RowDefinitions.ItemSizeChanged += RowDefinitions_ItemSizeChanged;
 		}
 
-		private void RowDefinitions_ItemSizeChanged(object sender, EventArgs e)
+		void RowDefinitions_ItemSizeChanged(object sender, EventArgs e)
 		{
 			OnRowOrColumnCountChanged();
 		}
 
-		private void ColumnDefinitions_ItemSizeChanged(object sender, EventArgs e)
+		void ColumnDefinitions_ItemSizeChanged(object sender, EventArgs e)
 		{
 			OnRowOrColumnCountChanged();
 		}
