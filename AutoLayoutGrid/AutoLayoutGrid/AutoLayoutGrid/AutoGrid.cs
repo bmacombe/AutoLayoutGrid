@@ -62,22 +62,13 @@ namespace AutoLayoutGrid
 		private int _rowCount;
 		private int _columnCount;
 
-		void FindNextCell(int rowSpan, int columnSpan, ref int rowIndex, ref int columnIndex)
+		void FindNextCell(int rowSpan, int columnSpan, out int rowIndex, out int columnIndex)
 		{
-			if (_UsedMatrix == null) 
+			if (_UsedMatrix == null)
 				_UsedMatrix = InitMatrix();
 
 			// Use the row index provided if it was manually set or find the first available row
-			bool[] row;
-			if(rowIndex == 0)
-				row = _UsedMatrix.FirstOrDefault(r => r.Any(c => !c));
-			else
-			{
-				if (rowIndex < _rowCount)
-					row = _UsedMatrix[rowIndex];
-				else
-					return;
-			}
+			var row = _UsedMatrix.FirstOrDefault(r => r.Any(c => !c));
 
 			// If no row is found, set cell to origin and log
 			if (row == null)
@@ -90,8 +81,7 @@ namespace AutoLayoutGrid
 			rowIndex = _UsedMatrix.IndexOf(row);
 
 			// Find the first available column
-			if(columnIndex == 0)
-				columnIndex = row.IndexOf(row.First(c => c == false));
+			columnIndex = row.IndexOf(row.First(c => c == false));
 		}
 
 		void UpdateUsedCells(int row, int column, int rowSpan, int columnSpan)
@@ -124,7 +114,12 @@ namespace AutoLayoutGrid
 			var columnSpan = GetColumnSpan(view);
 			var rowSpan = GetRowSpan(view);
 
-			FindNextCell(rowSpan, columnSpan, ref row, ref column);
+			if (row > 0)
+				LogWarning($"View already had row {row} assigned and will be ignored");
+			if (column > 0)
+				LogWarning($"View already had column {column} assigned and will be ignored");
+
+			FindNextCell(rowSpan, columnSpan, out row, out column);
 			UpdateUsedCells(row, column, rowSpan, columnSpan);
 
 			// Set attributes
