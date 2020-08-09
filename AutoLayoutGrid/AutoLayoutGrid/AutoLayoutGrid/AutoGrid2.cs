@@ -144,6 +144,8 @@ namespace AutoLayoutGrid
 			// Set attributes
 			view.SetValue(Grid.ColumnProperty, column);
 			view.SetValue(Grid.RowProperty, row);
+			view.SetValue(Grid.ColumnSpanProperty, GetColumnSpan(view));
+			view.SetValue(Grid.RowSpanProperty, GetRowSpan(view));
 		}
 
 		private void _InternalGrid_ChildAdded(object sender, ElementEventArgs e)

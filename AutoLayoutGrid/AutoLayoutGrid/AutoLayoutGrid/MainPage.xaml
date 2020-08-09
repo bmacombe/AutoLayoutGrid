@@ -73,15 +73,15 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</autoLayoutGrid:AutoGrid2.ColumnDefinitions>
 
-			<autoLayoutGrid:TestLabel Grid.RowSpan="2" />
+			<autoLayoutGrid:TestLabel autoLayoutGrid:AutoGrid2.RowSpan="2" />
 			<autoLayoutGrid:TestLabel />
 			<autoLayoutGrid:TestLabel />
 
-			<autoLayoutGrid:TestLabel Grid.ColumnSpan="2"/>
+			<autoLayoutGrid:TestLabel autoLayoutGrid:AutoGrid2.ColumnSpan="2"/>
 			<autoLayoutGrid:TestLabel/>
 
 			<autoLayoutGrid:TestLabel />
-			<autoLayoutGrid:TestLabel Grid.RowSpan="2" Grid.ColumnSpan="2" />
+			<autoLayoutGrid:TestLabel autoLayoutGrid:AutoGrid2.RowSpan="2" Grid.ColumnSpan="2" />
 			<autoLayoutGrid:TestLabel />
 
 			<autoLayoutGrid:TestLabel />
