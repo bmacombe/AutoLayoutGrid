@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Internals;
@@ -12,7 +13,7 @@ namespace AutoLayoutGrid
 		public AutoGrid2()
 		{
 			_InternalGrid = new Grid();
-			Content = _InternalGrid;
+			base.Content = _InternalGrid;
 
 			_InternalGrid.ChildAdded += _InternalGrid_ChildAdded;
 			ColumnDefinitions.ItemSizeChanged += ColumnDefinitions_ItemSizeChanged;
@@ -24,6 +25,12 @@ namespace AutoLayoutGrid
 		private int _columnCount;
 		readonly Grid _InternalGrid;
 		public new IList<View> Children => _InternalGrid.Children;
+
+		[Obsolete("This property is not intended to be used. Add content with the Children property.", true)]
+		[Browsable(false)]
+		[Bindable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public new View Content { get; set; }
 
 		public static readonly BindableProperty RowSpanProperty = BindableProperty.CreateAttached("RowSpan", typeof(int), typeof(AutoGrid), 1, validateValue: (bindable, value) => (int)value >= 1);
 		public static int GetRowSpan(BindableObject bindable)
@@ -129,7 +136,7 @@ namespace AutoLayoutGrid
 
 		void ProcessElement(BindableObject view)
 		{
-			// Strip any Grid attached properties
+			// Strip any Grid attached properties so they won't interfere with the auto layout.
 			view.SetValue(Grid.RowProperty, 0);
 			view.SetValue(Grid.RowSpanProperty, 1);
 			view.SetValue(Grid.ColumnProperty, 0);
