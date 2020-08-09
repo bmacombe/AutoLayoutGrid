@@ -28,7 +28,7 @@
 			<Button Text="Remove Row" Clicked="ButtonRemoveRow_OnClicked"></Button>
 			<Button Text="Remove Column" Clicked="ButtonRemoveColumn_OnClicked"></Button>
 		</StackLayout>
-		<autoLayoutGrid:AutoGrid x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False">
+		<!--<autoLayoutGrid:AutoGrid x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
@@ -57,7 +57,38 @@
 			<autoLayoutGrid:TestLabel />
 			<autoLayoutGrid:TestLabel />
 
-		</autoLayoutGrid:AutoGrid>
+		</autoLayoutGrid:AutoGrid>-->
+
+		<autoLayoutGrid:AutoGrid2 x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False">
+			<autoLayoutGrid:AutoGrid2.RowDefinitions>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+			</autoLayoutGrid:AutoGrid2.RowDefinitions>
+			<autoLayoutGrid:AutoGrid2.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</autoLayoutGrid:AutoGrid2.ColumnDefinitions>
+
+			<autoLayoutGrid:TestLabel Grid.RowSpan="2" />
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+			<autoLayoutGrid:TestLabel Grid.ColumnSpan="2"/>
+			<autoLayoutGrid:TestLabel/>
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel Grid.RowSpan="2" Grid.ColumnSpan="2" />
+			<autoLayoutGrid:TestLabel />
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+		</autoLayoutGrid:AutoGrid2>
 	</StackLayout>
 
 </ContentPage>
