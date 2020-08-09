@@ -73,7 +73,7 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</autoLayoutGrid:AutoGrid2.ColumnDefinitions>
 
-			<autoLayoutGrid:TestLabel autoLayoutGrid:AutoGrid2.RowSpan="2" />
+			<autoLayoutGrid:TestLabel autoLayoutGrid:AutoGrid2.RowSpan="2" Grid.RowSpan="10"/>
 			<autoLayoutGrid:TestLabel />
 			<autoLayoutGrid:TestLabel />
 

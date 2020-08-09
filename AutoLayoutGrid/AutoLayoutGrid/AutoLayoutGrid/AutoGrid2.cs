@@ -137,10 +137,11 @@ namespace AutoLayoutGrid
 		void ProcessElement(BindableObject view)
 		{
 			// Strip any Grid attached properties so they won't interfere with the auto layout.
-			view.SetValue(Grid.RowProperty, 0);
-			view.SetValue(Grid.RowSpanProperty, 1);
-			view.SetValue(Grid.ColumnProperty, 0);
-			view.SetValue(Grid.ColumnSpanProperty, 1);
+			// This may not be needed.
+			//view.SetValue(Grid.RowProperty, Grid.RowProperty.DefaultValue);
+			//view.SetValue(Grid.RowSpanProperty, Grid.RowSpanProperty.DefaultValue);
+			//view.SetValue(Grid.ColumnProperty, Grid.ColumnProperty.DefaultValue);
+			//view.SetValue(Grid.ColumnSpanProperty, Grid.ColumnSpanProperty.DefaultValue);
 
 			var columnSpan = GetColumnSpan(view);
 			var rowSpan = GetRowSpan(view);
