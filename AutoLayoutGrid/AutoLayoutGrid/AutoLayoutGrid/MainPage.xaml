@@ -59,7 +59,7 @@
 
 		</autoLayoutGrid:AutoGrid>-->
 
-		<autoLayoutGrid:AutoGrid2 x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False"
+		<!--<autoLayoutGrid:AutoGrid2 x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False"
 		                          RowSpacing="20" ColumnSpacing="20">
 			<autoLayoutGrid:AutoGrid2.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
@@ -89,7 +89,42 @@
 			<autoLayoutGrid:TestLabel />
 			<autoLayoutGrid:TestLabel />
 
-		</autoLayoutGrid:AutoGrid2>
+		</autoLayoutGrid:AutoGrid2>-->
+
+		<Grid x:Name="TestGrid" Margin="30" BackgroundColor="Gray">
+			<Grid.Behaviors>
+				<autoLayoutGrid:AutoGridLayoutBehavior/>
+			</Grid.Behaviors>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+				<RowDefinition Height="*"></RowDefinition>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+				<ColumnDefinition Width="*"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+
+			<autoLayoutGrid:TestLabel Grid.RowSpan="2"/>
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+			<autoLayoutGrid:TestLabel Grid.ColumnSpan="2"/>
+			<autoLayoutGrid:TestLabel/>
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel Grid.ColumnSpan="2" Grid.RowSpan="2" />
+			<autoLayoutGrid:TestLabel />
+
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+			<autoLayoutGrid:TestLabel />
+
+		</Grid>
+
 	</StackLayout>
 
 </ContentPage>
