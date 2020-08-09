@@ -44,6 +44,30 @@ namespace AutoLayoutGrid
 			return (int)bindable.GetValue(ColumnSpanProperty);
 		}
 
+		public static readonly BindableProperty RowSpacingProperty = BindableProperty.Create("RowSpacing", typeof(double), typeof(AutoGrid2), 6d,
+			propertyChanged: (bindable, oldValue, newValue) =>
+			{
+				var autoGrid = (AutoGrid2)bindable;
+				autoGrid._InternalGrid.RowSpacing = (double)newValue;
+			});
+		public double RowSpacing
+		{
+			get => (double)GetValue(RowSpacingProperty);
+			set => SetValue(RowSpacingProperty, value);
+		}
+
+		public static readonly BindableProperty ColumnSpacingProperty = BindableProperty.Create("ColumnSpacing", typeof(double), typeof(AutoGrid2), 6d,
+			propertyChanged: (bindable, oldValue, newValue) =>
+			{
+				var autoGrid = (AutoGrid2)bindable;
+				autoGrid._InternalGrid.ColumnSpacing = (double)newValue;
+			});
+		public double ColumnSpacing
+		{
+			get => (double)GetValue(ColumnSpacingProperty);
+			set => SetValue(ColumnSpacingProperty, value);
+		}
+
 		public ColumnDefinitionCollection ColumnDefinitions => _InternalGrid.ColumnDefinitions;
 		public RowDefinitionCollection RowDefinitions => _InternalGrid.RowDefinitions;
 		public bool ThrowOnLayoutWarning { get; set; }
