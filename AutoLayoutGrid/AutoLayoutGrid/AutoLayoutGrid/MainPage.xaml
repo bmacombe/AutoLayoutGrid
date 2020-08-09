@@ -59,7 +59,8 @@
 
 		</autoLayoutGrid:AutoGrid>-->
 
-		<autoLayoutGrid:AutoGrid2 x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False">
+		<autoLayoutGrid:AutoGrid2 x:Name="TestGrid" Margin="30" BackgroundColor="Gray" ThrowOnLayoutWarning="False"
+		                          RowSpacing="20" ColumnSpacing="20">
 			<autoLayoutGrid:AutoGrid2.RowDefinitions>
 				<RowDefinition Height="*"></RowDefinition>
 				<RowDefinition Height="*"></RowDefinition>
